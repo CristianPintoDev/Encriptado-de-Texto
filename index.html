@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enriptado de texto</title>
-    <script src="app.js"></script>
+    <title>Encriptado de texto</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="app.js" defer></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="header">
-        
+        <!-- Contenido del header -->
     </header>
     
     <main class="main">
@@ -22,21 +23,22 @@
                 <h3><img src="img/bi_exclamation-circle-fill.png"> Solo letras minúsculas y sin acentos</h3>
             </div>
             <div class="botones">
-                <button class="botones_encriptar">Encriptar</button>
-                <button class="botones_desencriptar">Desencriptar</button>
+                <button class="botones_encriptar" onclick="encriptar()">Encriptar</button>
+                <button class="botones_desencriptar" onclick="desencriptar()">Desencriptar</button>
             </div>
         </section>
         <section class="respuesta">
             <div class="respuesta_texto">
-                <img src="img/Muñeco.png">
+                <img class="img" src="img/Muñeco.png" alt="Muñeco">
                 <h2 class="no_encontrado">Ningún mensaje fue encontrado</h2>
                 <h2 class="no_encontrado">Ingresa el texto que desees encriptar o desencriptar.</h2>
                 <output class="output"></output>
+                <button class="copiar" onclick="copiarTexto()">Copia</button>
             </div>
         </section>
     </main>
     <footer class="footer">
-
+        <!-- Contenido del footer -->
     </footer>
 </body>
 </html>
