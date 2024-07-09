@@ -1,18 +1,9 @@
-// app.js
-
 function copiarTexto() {
     const output = document.querySelector('.output');
     if (output.textContent.trim() !== "") {
         navigator.clipboard.writeText(output.textContent)
-            .then(() => {
-                alert("Texto copiado al portapapeles");
-            })
-            .catch(err => {
-                console.error("Error al copiar el texto: ", err);
-                alert("Error al copiar el texto");
-            });
     } else {
-        alert("No hay texto para copiar");
+        alert("No hay nada para copiar");
     }
 }
 
@@ -20,16 +11,16 @@ function encriptar() {
     const textarea = document.querySelector('.traduccion_ingresar_texto');
     const output = document.querySelector('.output');
     const img = document.querySelector('.img');
-    const noEncontradoElems = document.querySelectorAll('.no_encontrado');
-    const copiarBtn = document.querySelector('.copiar');
+    const noEncontrado = document.querySelectorAll('.no_encontrado, .no_encontrado_2');
+    const btn_copiar = document.querySelector('.copiar');
 
     const texto = textarea.value.trim();
-    const clave = 'mi_secreta_clave'; // Define una clave segura
+    const clave = 'palabraSecreta';
     if (texto) {
         const textoEncriptado = encriptarTexto(texto, clave);
-        mostrarOutput(textoEncriptado, output, img, noEncontradoElems, copiarBtn);
+        mostrarOutput(textoEncriptado, output, img, noEncontrado, btn_copiar);
     } else {
-        mostrarOutput('', output, img, noEncontradoElems, copiarBtn);
+        mostrarOutput('', output, img, noEncontrado, btn_copiar);
     }
 }
 
@@ -37,16 +28,16 @@ function desencriptar() {
     const textarea = document.querySelector('.traduccion_ingresar_texto');
     const output = document.querySelector('.output');
     const img = document.querySelector('.img');
-    const noEncontradoElems = document.querySelectorAll('.no_encontrado');
-    const copiarBtn = document.querySelector('.copiar');
+    const noEncontrado = document.querySelectorAll('.no_encontrado, .no_encontrado_2');
+    const btn_copiar = document.querySelector('.copiar');
 
     const textoEncriptado = textarea.value.trim();
-    const clave = 'mi_secreta_clave'; // Usa la misma clave
+    const clave = 'palabraSecreta';
     if (textoEncriptado) {
         const textoDesencriptado = desencriptarTexto(textoEncriptado, clave);
-        mostrarOutput(textoDesencriptado, output, img, noEncontradoElems, copiarBtn);
+        mostrarOutput(textoDesencriptado, output, img, noEncontrado, btn_copiar);
     } else {
-        mostrarOutput('', output, img, noEncontradoElems, copiarBtn);
+        mostrarOutput('', output, img, noEncontrado, btn_copiar);
     }
 }
 
@@ -59,15 +50,33 @@ function desencriptarTexto(textoEncriptado, clave) {
     return bytes.toString(CryptoJS.enc.Utf8);
 }
 
-function mostrarOutput(mensaje, output, img, noEncontradoElems, copiarBtn) {
+function mostrarOutput(mensaje, output, img, noEncontrado, btn_copiar) {
     output.textContent = mensaje;
+    const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+
     if (mensaje) {
         img.style.display = 'none';
-        noEncontradoElems.forEach(el => el.style.display = 'none');
-        copiarBtn.style.display = 'inline-block'; // Muestra el botón de copiar
+        noEncontrado.forEach(el => el.style.display = 'none');
+        btn_copiar.style.display = 'inline-block';
     } else {
-        img.style.display = 'block';
-        noEncontradoElems.forEach(el => el.style.display = 'block');
-        copiarBtn.style.display = 'none'; // Oculta el botón de copiar
+        if (!isSmallScreen) {
+            img.style.display = 'block';
+        } else {
+            img.style.display = 'none';
+        }
+        noEncontrado.forEach(el => el.style.display = 'block');
+        btn_copiar.style.display = 'none';
     }
 }
+
+function handleResize() {
+    const output = document.querySelector('.output');
+    const img = document.querySelector('.img');
+    const noEncontrado = document.querySelectorAll('.no_encontrado, .no_encontrado_2');
+    const btn_copiar = document.querySelector('.copiar');
+
+    const mensaje = output.textContent.trim();
+    mostrarOutput(mensaje, output, img, noEncontrado, btn_copiar);
+}
+
+window.addEventListener('resize', handleResize);
